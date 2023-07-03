@@ -1,0 +1,17 @@
+ .product-details-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.product-details {
+    width: 50%;
+    padding: 20px;
+    background-color: #f2f2f2;
+}
+
+.user-details {
+    width: 30%;
+    padding: 20px;
+    background-color: #f2f2f2;
+}

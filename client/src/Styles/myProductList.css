@@ -1,0 +1,45 @@
+.my-product-list-container {
+    margin: 20px;
+}
+
+.product-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.product-item h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.product-item p {
+    margin-bottom: 5px;
+}
+
+.product-item button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.product-item button:hover {
+    background-color: #c0392b;
+}
+.product-update-link {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+ .product-update-link:hover {
+    background-color: #c0392b;
+}
+.error-message {
+    color: red;
+    font-weight: bold;
+}
