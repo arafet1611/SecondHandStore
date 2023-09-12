@@ -5,6 +5,7 @@ const app = express();
 const userRoute = require("./src/routes/userRoute");
 const productRoute = require("./src/routes/productRoute");
 app.use(express.json());
+app.use("/uploads", express.static("uploads"));
 app.listen(process.env.PORT, () => {
   console.log(`Server is listening on port ${process.env.PORT}`);
 });

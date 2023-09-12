@@ -5,7 +5,7 @@ import "../Styles/ProductForm.css";
 
 const UpdateProduct = () => {
   const [name, setName] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null); // Change to null for image file
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState(0);
@@ -47,9 +47,10 @@ const UpdateProduct = () => {
     }
   }, [product]);
 
-  const handleForm1Submit = (e) => {
+  const handleForm1Submit = async (e) => {
     e.preventDefault();
     setIsForm1Submitted(true);
+
     if (name && image && description && category && price && expiresOn) {
       setIsForm1Valid(true);
       setIsForm2Visible(true);
@@ -61,33 +62,33 @@ const UpdateProduct = () => {
 
   const handleForm2Submit = async (e) => {
     e.preventDefault();
+
     try {
-      const res = await axios.put(
-        `/api/products/${id}`,
-        {
-          name,
-          image,
-          description,
-          category,
-          price,
-          shippingAddress: {
-            address,
-            city,
-            shippingCharge,
-          },
-          expiresOn,
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("category", category);
+      formData.append("price", price);
+      formData.append("expiresOn", expiresOn);
+      formData.append("address", address);
+      formData.append("city", city);
+      formData.append("shippingCharge", shippingCharge);
+
+      if (image instanceof File) {
+        formData.append("image", image); // Append the image file only if it's a file (not a string)
+      }
+
+      const res = await axios.put(`/api/products/${id}`, formData, {
+        headers: {
+          "x-user-id": user._id,
+          "Content-Type": "multipart/form-data", // Set content type for file upload
         },
-        {
-          headers: {
-            "x-user-id": user._id,
-          },
-        }
-      );
+      });
 
       console.log("Product updated:", res.data);
 
       setName("");
-      setImage("");
+      setImage(null); // Reset image to null
       setDescription("");
       setCategory("");
       setPrice(0);
@@ -162,10 +163,9 @@ const UpdateProduct = () => {
           <div>
             <label htmlFor="image">Image:</label>
             <input
-              type="text"
+              type="file" // Change to file input for image upload
               id="image"
-              value={image}
-              onChange={(e) => setImage(e.target.value)}
+              onChange={(e) => setImage(e.target.files[0])} // Handle file input change
             />
           </div>
           <div>

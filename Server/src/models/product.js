@@ -35,15 +35,15 @@ const productSchema = mongoose.Schema(
     shippingAddress: {
       address: {
         type: String,
-        required: true,
       },
       city: {
         type: String,
+        default: "mahdia",
       },
       shippingCharge: {
         type: Number,
         required: true,
-        default: 0,
+        default: 7,
       },
     },
   },

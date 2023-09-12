@@ -1,5 +1,6 @@
 const Product = require("../models/product");
 const checkProductOwner = require("../middleWares/authMiddleWare");
+const upload = require("../multer"); // Import the Multer middleware
 const getProducts = async (req, res) => {
   try {
     const products = await Product.find();
@@ -13,6 +14,7 @@ const getProducts = async (req, res) => {
 const getProductById = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
+
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
@@ -40,17 +42,18 @@ const createProduct = async (req, res) => {
   try {
     const {
       name,
-      image,
+
       description,
       category,
       price,
       expiresOn,
       shippingAddress,
     } = req.body;
+    const { filename } = req.file;
     const product = new Product({
       user: req.user._id,
       name,
-      image,
+      image: filename,
       description,
       category,
       price,

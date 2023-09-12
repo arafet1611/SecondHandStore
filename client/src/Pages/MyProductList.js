@@ -62,16 +62,28 @@ function MyProductList() {
       {productList.length > 0 ? (
         productList.map((product) => (
           <div key={product._id} className="product-item">
-            <h3>{product.name}</h3>
-            <p>{product.description}</p>
-            <p>{product.price}</p>
-            <button onClick={() => deleteProduct(product._id)}>Delete</button>
-            <Link
-              to={`/products/${product._id}/update`}
-              className="product-update-link"
-            >
-              Update
-            </Link>
+            {/* Add the product image */}
+            <img
+              src={`/uploads/${product.image}`} // Use the correct image path
+              alt={product.name}
+              className="product-image"
+            />
+
+            <div className="product-details">
+              <h3>{product.name}</h3>
+              <p>{product.description}</p>
+              <p>{product.price}</p>
+            </div>
+
+            <div className="product-buttons">
+              <button onClick={() => deleteProduct(product._id)}>Delete</button>
+              <Link
+                to={`/products/${product._id}/update`}
+                className="product-update-link"
+              >
+                Update
+              </Link>
+            </div>
           </div>
         ))
       ) : (

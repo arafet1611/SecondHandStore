@@ -33,8 +33,23 @@ const loginUser = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+const getUser = async (req, res) => {
+  try {
+    const userId = req.params.id; // Assuming you pass the user ID as a route parameter
+    const user = await User.findById(userId);
 
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ message: "User retrieved successfully", user });
+  } catch (error) {
+    console.error("Error retrieving user:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
 module.exports = {
   registerUser,
   loginUser,
+  getUser,
 };

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "../Styles/ProductForm.css";
+
 const AddProduct = () => {
   const [name, setName] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null); // Initialize with null for the File object
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState(0);
@@ -33,32 +34,28 @@ const AddProduct = () => {
   const handleForm2Submit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        "/api/products",
-        {
-          name,
-          image,
-          description,
-          category,
-          price,
-          shippingAddress: {
-            address,
-            city,
-            shippingCharge,
-          },
-          expiresOn,
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("image", image);
+      formData.append("description", description);
+      formData.append("category", category);
+      formData.append("price", price);
+      formData.append("shippingAddress.address", address);
+      formData.append("shippingAddress.city", city);
+      formData.append("shippingAddress.shippingCharge", shippingCharge);
+      formData.append("expiresOn", expiresOn);
+
+      const res = await axios.post("/api/products", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "x-user-id": user._id,
         },
-        {
-          headers: {
-            "x-user-id": user._id,
-          },
-        }
-      );
+      });
 
       console.log("Product created:", res.data);
 
       setName("");
-      setImage("");
+      setImage(null); // Set it back to null
       setDescription("");
       setCategory("");
       setPrice(0);
@@ -79,92 +76,107 @@ const AddProduct = () => {
   };
 
   return (
-    <div>
-      <h2>Add Product</h2>
+    <div className="container">
+      <h2 className="my-4">Add Product</h2>
       {isForm2Visible && isForm1Valid ? (
         <form onSubmit={handleForm2Submit}>
-          <div>
+          <div className="form-group">
             <label htmlFor="address">Address:</label>
             <input
               type="text"
+              className="form-control"
               id="address"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
             />
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="city">City:</label>
             <input
               type="text"
+              className="form-control"
               id="city"
               value={city}
               onChange={(e) => setCity(e.target.value)}
             />
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="shippingCharge">Shipping Charge:</label>
             <input
               type="number"
+              className="form-control"
               id="shippingCharge"
               value={shippingCharge}
               onChange={(e) => setShippingCharge(parseFloat(e.target.value))}
             />
           </div>
-          <button type="button" onClick={handleReturnToForm1}>
+          <button
+            type="button"
+            className="btn btn-secondary mr-2"
+            onClick={handleReturnToForm1}
+          >
             Back
           </button>
-          <button type="submit">Submit</button>
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
         </form>
       ) : (
         <form onSubmit={handleForm1Submit}>
-          <div>
+          <div className="form-group">
             <label htmlFor="name">Name:</label>
             <input
               type="text"
+              className="form-control"
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="image">Image:</label>
             <input
-              type="text"
+              type="file"
+              className="form-control-file"
               id="image"
-              value={image}
-              onChange={(e) => setImage(e.target.value)}
+              accept="image/*"
+              onChange={(e) => setImage(e.target.files[0])}
             />
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="description">Description:</label>
             <textarea
+              className="form-control"
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="category">Category:</label>
             <input
               type="text"
+              className="form-control"
               id="category"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
             />
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="price">Price:</label>
             <input
               type="number"
+              className="form-control"
               id="price"
               value={price}
               onChange={(e) => setPrice(parseFloat(e.target.value))}
             />
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="expiresOn">Expires On:</label>
             <input
               type="text"
+              className="form-control"
               id="expiresOn"
               value={expiresOn}
               onChange={(e) => setExpiresOn(e.target.value)}
@@ -173,7 +185,9 @@ const AddProduct = () => {
           {isForm1Submitted && !isForm1Valid && (
             <div style={{ color: "red" }}>Please complete the entire form</div>
           )}
-          <button type="submit">Next</button>
+          <button type="submit" className="btn btn-primary">
+            Next
+          </button>
         </form>
       )}
     </div>

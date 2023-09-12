@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const upload = require("../multer");
+
 const productController = require("../controllers/productController");
 const {
   checkProductOwner,
@@ -21,7 +23,12 @@ router.delete(
 );
 
 // POST /products
-router.post("/", authenticateUser, productController.createProduct);
+router.post(
+  "/",
+  authenticateUser,
+  upload.single("image"),
+  productController.createProduct
+);
 
 // PUT /products/:id
 router.put(
