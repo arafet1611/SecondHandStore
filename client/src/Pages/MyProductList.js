@@ -21,6 +21,7 @@ function MyProductList() {
             {
               headers: {
                 "x-user-id": user._id,
+                "x-admin": user.isAdmin,
               },
             }
           );
@@ -37,6 +38,7 @@ function MyProductList() {
     try {
       await axios.delete(`/api/products/${productId}`, {
         headers: {
+          "x-admin": user.isAdmin,
           "x-user-id": user._id,
         },
       });
@@ -57,7 +59,7 @@ function MyProductList() {
   }
 
   return (
-    <div className="my-product-list-container">
+    <div className="my-product-list-container container">
       <h1>My Product List</h1>
       {productList.length > 0 ? (
         productList.map((product) => (

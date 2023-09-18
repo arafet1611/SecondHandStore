@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "../Styles/ProductForm.css";
 
 const AddProduct = () => {
   const [name, setName] = useState("");
@@ -17,7 +16,7 @@ const AddProduct = () => {
   const [isForm1Submitted, setIsForm1Submitted] = useState(false);
   const storedUser = window.localStorage.getItem("user");
   const user = storedUser ? JSON.parse(storedUser) : null;
-
+  console.log(user.isAdmin);
   const handleForm1Submit = (e) => {
     e.preventDefault();
     setIsForm1Submitted(true);
@@ -44,10 +43,11 @@ const AddProduct = () => {
       formData.append("shippingAddress.city", city);
       formData.append("shippingAddress.shippingCharge", shippingCharge);
       formData.append("expiresOn", expiresOn);
-
+      console.log(user._id);
       const res = await axios.post("/api/products", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          "x-admin": user.isAdmin,
           "x-user-id": user._id,
         },
       });

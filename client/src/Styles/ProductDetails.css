@@ -1,10 +1,12 @@
+ 
 .product-details-container {
     padding: 20px;
+    
+    /* Ensures the background covers the full viewport height */
 }
 
 .product-image img {
-    min-width: 800px;
-    
+    min-width: 600px;
     height: 500px;
 }
 

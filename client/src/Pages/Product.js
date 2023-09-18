@@ -26,7 +26,7 @@ const Products = () => {
   }, []);
 
   return (
-    <div>
+    <div className="container">
       <ProductSearch
         products={products}
         setFilteredProducts={setFilteredProducts}

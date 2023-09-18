@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import "../Styles/ProductForm.css";
 
 const UpdateProduct = () => {
   const [name, setName] = useState("");
@@ -80,6 +79,7 @@ const UpdateProduct = () => {
 
       const res = await axios.put(`/api/products/${id}`, formData, {
         headers: {
+          "x-admin": user.isAdmin,
           "x-user-id": user._id,
           "Content-Type": "multipart/form-data", // Set content type for file upload
         },
@@ -113,91 +113,106 @@ const UpdateProduct = () => {
   }
 
   return (
-    <div>
-      <h2>Update Product</h2>
+    <div className="container">
+      <h2 className="my-4">Update Product</h2>
       {isForm2Visible && isForm1Valid ? (
         <form onSubmit={handleForm2Submit}>
-          <div>
+          <div className="form-group">
             <label htmlFor="address">Address:</label>
             <input
               type="text"
+              className="form-control"
               id="address"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
             />
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="city">City:</label>
             <input
               type="text"
+              className="form-control"
               id="city"
               value={city}
               onChange={(e) => setCity(e.target.value)}
             />
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="shippingCharge">Shipping Charge:</label>
             <input
               type="number"
+              className="form-control"
               id="shippingCharge"
               value={shippingCharge}
               onChange={(e) => setShippingCharge(parseFloat(e.target.value))}
             />
           </div>
-          <button type="button" onClick={handleReturnToForm1}>
+          <button
+            type="button"
+            className="btn btn-secondary mr-2"
+            onClick={handleReturnToForm1}
+          >
             Back
           </button>
-          <button type="submit">Submit</button>
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
         </form>
       ) : (
         <form onSubmit={handleForm1Submit}>
-          <div>
+          <div className="form-group">
             <label htmlFor="name">Name:</label>
             <input
               type="text"
+              className="form-control"
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="image">Image:</label>
             <input
-              type="file" // Change to file input for image upload
+              type="file"
+              className="form-control-file"
               id="image"
-              onChange={(e) => setImage(e.target.files[0])} // Handle file input change
+              onChange={(e) => setImage(e.target.files[0])}
             />
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="description">Description:</label>
             <textarea
+              className="form-control"
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="category">Category:</label>
             <input
               type="text"
+              className="form-control"
               id="category"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
             />
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="price">Price:</label>
             <input
               type="number"
+              className="form-control"
               id="price"
               value={price}
               onChange={(e) => setPrice(parseFloat(e.target.value))}
             />
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="expiresOn">Expires On:</label>
             <input
               type="text"
+              className="form-control"
               id="expiresOn"
               value={expiresOn}
               onChange={(e) => setExpiresOn(e.target.value)}
@@ -206,9 +221,12 @@ const UpdateProduct = () => {
           {isForm1Submitted && !isForm1Valid && (
             <div style={{ color: "red" }}>Please complete the entire form</div>
           )}
-          <button type="submit">Next</button>
+          <button type="submit" className="btn btn-primary">
+            Next
+          </button>
         </form>
       )}
+      ;
     </div>
   );
 };

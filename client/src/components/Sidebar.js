@@ -7,7 +7,7 @@ function Sidebar() {
   // Define inline styles for elements
   const sidebarStyle = {
     width: "250px",
-    backgroundColor: "#333",
+    backgroundColor: "gray",
     color: "#fff",
     padding: "20px",
   };

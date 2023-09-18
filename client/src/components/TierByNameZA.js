@@ -19,7 +19,7 @@ const TierByNameAZ = ({ products, setProducts }) => {
 
   return (
     <button style={buttonStyle} onClick={handleSortByNameAZ}>
-      Sort by Name (A-Z)
+      Sort by Name (Z-A)
     </button>
   );
 };
